@@ -1,3 +1,10 @@
 #!/bin/bash
 
-dapr run --app-id trafficcontrolservice --app-port 6000 --dapr-http-port 3600 --dapr-grpc-port 60000 --config ../dapr/config/config.yaml --resources-path ../dapr/components dotnet run
+PORT=6001
+
+dapr run \
+    --app-id trafficcontrolservice \
+    --app-port $PORT \
+    --resources-path ../../deployment/local/dapr/components \
+    --config ../../deployment/local/dapr/config/config.yaml \
+    -- dotnet run --urls http://localhost:$PORT

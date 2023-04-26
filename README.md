@@ -60,7 +60,6 @@ This sample uses Dapr for implementing several aspects of the application. In th
 1. Fines are sent to the owner of a speeding vehicle by email. For sending the email, the Dapr SMTP **output binding** is used.
 1. The Dapr **input binding** for MQTT is used to send simulated car info to the TrafficControlService. Mosquitto is used as MQTT broker.
 1. The FineCollectionService needs credentials for connecting to the smtp server and a license-key for a fine calculator component. It uses the **secrets management** building block with the local file component to get the credentials and the license-key.
-1. The TrafficControlService has an alternative implementation based on Dapr **actors**. See [Run the application with actors](#run-the-application-with-dapr-actors) for instructions on how to run this.
 
 Here is the sequence diagram again, but now with all the Dapr building blocks and components:
 
@@ -70,11 +69,11 @@ Here is the sequence diagram again, but now with all the Dapr building blocks an
 
 In self-hosted mode everything will run on your local machine. To prevent port-collisions, all services listen on a different HTTP port. When running the services with Dapr, you need additional ports voor HTTP and gRPC communication with the sidecars. By default these ports are `3500` and `50001`. But to prevent confusion, you'll use totally different port numbers in the assignments. The services will use the following ports:
 
-| Service                    | Application Port | Dapr sidecar HTTP port | Dapr sidecar gRPC port |
-| -------------------------- | ---------------- | ---------------------- | ---------------------- |
-| TrafficControlService      | 6000             | 3600                   | 60000                  |
-| FineCollectionService      | 6001             | 3601                   | 60001                  |
-| VehicleRegistrationService | 6002             | 3602                   | 60002                  |
+| Service                    | Application Port |
+| -------------------------- | ---------------- |
+| TrafficControlService      | 6001             |
+| FineCollectionService      | 6002             |
+| VehicleRegistrationService | 6003             |
 
 The ports can be specified on the command-line when starting a service with the Dapr CLI. The following command-line flags can be used:
 
@@ -202,24 +201,6 @@ The simulation runs in a web-browser. In order to start the web-application host
 1. Open a browser window and navigate to [http://localhost:5000](http://localhost:5000).
 
 1. Use the arrow keys to scroll and zoom in/out.
-
-## Run the application with Dapr actors
-
-The TrafficControlService has an alternative implementation based on Dapr actors.
-
-The `TrafficController` in the TrafficControlService has 2 implementations of the `VehicleEntry` and `VehicleExit` methods. The top two methods contain all the code for handling vehicle registrations and storing vehicle state using the state management building block. The bottom two methods use a `VehicleActor` that does all the work. A new instance of the `VehicleActor` is created for each registered vehicle. In stead of using the state management building block, the actor uses its built-in `StateManager`.
-
-You can find the code of the actor in the file `src/TrafficControlService/Actors/VehicleActor.cs`.
-
-To use the actor based implementation, uncomment the statement that defines the `USE_ACTORMODEL` symbol at the top of the controller:
-
-```csharp
-#define USE_ACTORMODEL
-```
-
-Now you can restart the application just as before. The behavior is exactly the same, but you will see that the logging of the TrafficControlService will be emitted by the `VehicleActor`:
-
-![Logging traffic control service actors](img/logging-trafficcontrolservice-actors.png)
 
 ## Run the application on Kubernetes
 

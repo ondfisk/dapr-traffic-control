@@ -1,36 +1,29 @@
-// create web-app
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<ISpeedingViolationCalculator>(
-    new DefaultSpeedingViolationCalculator("A12", 10, 100, 5));
+builder.Services.AddSingleton<ISpeedingViolationCalculator>(new SpeedingViolationCalculator("A12", 10, 100, 5));
+builder.Services.AddControllers().AddDapr();
+builder.Services.AddHealthChecks();
+builder.Services.AddDaprClient();
 
-builder.Services.AddSingleton<IVehicleStateRepository, DaprVehicleStateRepository>();
-
-var daprHttpPort = Environment.GetEnvironmentVariable("DAPR_HTTP_PORT") ?? "3600";
-var daprGrpcPort = Environment.GetEnvironmentVariable("DAPR_GRPC_PORT") ?? "60000";
-builder.Services.AddDaprClient(builder => builder
-    .UseHttpEndpoint($"http://localhost:{daprHttpPort}")
-    .UseGrpcEndpoint($"http://localhost:{daprGrpcPort}"));
-
-builder.Services.AddControllers();
-
-builder.Services.AddActors(options =>
+builder.Services.AddCors(options =>
 {
-    options.Actors.RegisterActor<VehicleActor>();
+    options.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:5000")
+                                               .WithMethods("POST")
+                                               .AllowAnyHeader());
 });
+
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 
-// configure web-app
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
 app.UseCloudEvents();
+app.UseCors();
 
-// configure routing
 app.MapControllers();
-app.MapActorsHandlers();
+app.MapHealthChecks("/healthz");
 
-// let's go!
-app.Run("http://localhost:6000");
+app.Run();
