@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simulation
+  namespace: dapr-trafficcontrol
+  labels:
+    app: simulation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simulation
+  template:
+    metadata:
+      labels:
+        app: simulation
+    spec:
+      containers:
+        - name: simulation
+          image: ghcr.io/ondfisk/simulation:latest
+          imagePullPolicy: Always
+          env:
+            - name: TRAFFIC_CONTROL_ENDPOINT
+              value: http://trafficcontrolservice:6001
+          ports:
+            - containerPort: 6004
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi

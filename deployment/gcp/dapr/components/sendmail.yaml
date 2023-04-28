@@ -1,0 +1,22 @@
+---
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: sendmail
+  namespace: dapr-trafficcontrol
+spec:
+  type: bindings.smtp
+  version: v1
+  metadata:
+    - name: host
+      value: mailserver
+    - name: port
+      value: 1025
+    - name: user
+      value: _username
+    - name: password
+      value: _password
+    - name: skipTLSVerify
+      value: true
+scopes:
+  - finecollectionservice

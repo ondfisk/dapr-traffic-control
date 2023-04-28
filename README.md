@@ -1,15 +1,16 @@
 # Dapr Traffic Control Sample
 
-| Attribute            | Details                   |
-| -------------------- | ------------------------- |
-| Dapr runtime version | v1.10.4                   |
-| Dapr.NET SDK version | v1.10.0                   |
-| Dapr CLI version     | v1.10.0                   |
-| Language             | C#                        |
-| Platform             | .NET 7 (SDK 7.0.202)      |
-| Environment          | Self hosted or Kubernetes |
-
 This repository contains a sample application that simulates a traffic-control system using Dapr. For this sample I've used a speeding-camera setup as can be found on several Dutch highways. A set of cameras are placed at the beginning and the end of a stretch of highway. Using data from these cameras, the average speed of a vehicle is measured. If this average speed is above the speeding limit on this highway, the driver of the vehicle receives a fine.
+
+## Deployment
+
+The sample is designed to run anywhere on any cloud. Sample contains setup for running:
+
+- Locally (development)
+- On-premises with Kubernetes
+- On Azure with Container Apps, Service Bus, Storage, and Key Vault
+- On GCP with ...
+- On AWS with ...
 
 ## Overview
 

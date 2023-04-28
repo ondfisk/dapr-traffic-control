@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finecollectionservice
+  namespace: dapr-trafficcontrol
+  labels:
+    app: finecollectionservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: finecollectionservice
+  template:
+    metadata:
+      labels:
+        app: finecollectionservice
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "finecollectionservice"
+        dapr.io/app-port: "6002"
+        dapr.io/config: "dapr-config"
+    spec:
+      containers:
+        - name: finecollectionservice
+          image: ghcr.io/ondfisk/fine-collection-service:latest
+          imagePullPolicy: Always
+          env:
+            - name: FINE_CALCULATOR_LICENSE_SECRET_NAME
+              value: trafficcontrol-secrets
+            - name: FINE_CALCULATOR_LICENSE_SECRET_KEY
+              value: finecalculator.licensekey
+          ports:
+            - containerPort: 6002
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi

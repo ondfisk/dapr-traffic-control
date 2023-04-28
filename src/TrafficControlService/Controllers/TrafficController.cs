@@ -5,6 +5,8 @@
 public class TrafficController : ControllerBase
 {
     private const string DAPR_STORE_NAME = "statestore";
+    private const string DAPR_PUBSUB_BROKER = "pubsub";
+    private const string DAPR_PUBSUB_TOPIC_NAME = "speedingviolations";
     private readonly ILogger<TrafficController> _logger;
     private readonly ISpeedingViolationCalculator _speedingViolationCalculator;
     private readonly DaprClient _daprClient;
@@ -76,7 +78,7 @@ public class TrafficController : ControllerBase
                 };
 
                 // publish speeding violation (Dapr publish / subscribe)
-                await _daprClient.PublishEventAsync("pubsub", "speedingviolations", speedingViolation);
+                await _daprClient.PublishEventAsync(DAPR_PUBSUB_BROKER, DAPR_PUBSUB_TOPIC_NAME, speedingViolation);
             }
 
             return Ok();

@@ -4,7 +4,11 @@
 [Route("")]
 public class CollectionController : ControllerBase
 {
-    private const string SECRET_STORE = "secretstore";
+    private const string DAPR_SECRET_STORE = "secretstore";
+    private const string DAPR_PUBSUB_BROKER = "pubsub";
+    private const string DAPR_PUBSUB_TOPIC_NAME = "speedingviolations";
+    private const string DAPR_PUBSUB_DEADLETTER_TOPIC_NAME = "deadletters";
+    private const string DAPR_EMAIL_BINDING_NAME = "sendmail";
     private static string? _fineCalculatorLicenseKey;
 
     private readonly ILogger<CollectionController> _logger;
@@ -20,7 +24,7 @@ public class CollectionController : ControllerBase
         _daprClient = daprClient;
     }
 
-    [Topic("pubsub", "speedingviolations", "deadletters", false)]
+    [Topic(DAPR_PUBSUB_BROKER, DAPR_PUBSUB_TOPIC_NAME, DAPR_PUBSUB_DEADLETTER_TOPIC_NAME, false)]
     [Route("collectfine")]
     [HttpPost]
     public async Task<ActionResult> CollectFine(SpeedingViolation speedingViolation)
@@ -28,7 +32,8 @@ public class CollectionController : ControllerBase
         if (_fineCalculatorLicenseKey is null)
         {
             var secretName = Environment.GetEnvironmentVariable("FINE_CALCULATOR_LICENSE_SECRET_NAME") ?? "finecalculator.licensekey";
-            var secrets = await _daprClient.GetSecretAsync(SECRET_STORE, secretName);
+            var secretKey = Environment.GetEnvironmentVariable("FINE_CALCULATOR_LICENSE_SECRET_KEY") ?? "finecalculator.licensekey";
+            var secrets = await _daprClient.GetSecretAsync(DAPR_SECRET_STORE, secretName);
             _fineCalculatorLicenseKey = secrets[secretName];
         }
 
@@ -49,12 +54,12 @@ public class CollectionController : ControllerBase
             ["emailTo"] = vehicleInfo.OwnerEmail,
             ["subject"] = $"Speeding violation on the {speedingViolation.RoadId}"
         };
-        await _daprClient.InvokeBindingAsync("sendmail", "create", body, metadata);
+        await _daprClient.InvokeBindingAsync(DAPR_EMAIL_BINDING_NAME, "create", body, metadata);
 
         return Ok();
     }
 
-    [Topic("pubsub", "deadletters")]
+    [Topic(DAPR_PUBSUB_BROKER, DAPR_PUBSUB_DEADLETTER_TOPIC_NAME)]
     [Route("deadletters")]
     [HttpPost]
     public ActionResult HandleDeadLetter(object message)

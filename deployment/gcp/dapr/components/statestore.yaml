@@ -1,0 +1,54 @@
+---
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: statestore
+  namespace: dapr-trafficcontrol
+spec:
+  type: state.gcp.firestore
+  version: v1
+  metadata:
+    - name: type
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: type
+    - name: project_id
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: project_id
+    - name: private_key_id
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: private_key_id
+    - name: client_email
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: client_email
+    - name: client_id
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: client_id
+    - name: auth_uri
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: auth_uri
+    - name: token_uri
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: token_uri
+    - name: auth_provider_x509_cert_url
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: auth_provider_x509_cert_url
+    - name: client_x509_cert_url
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: client_x509_cert_url
+    - name: private_key
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: private_key
+    - name: entity_kind
+      value: vehicles
+scopes:
+  - trafficcontrolservice

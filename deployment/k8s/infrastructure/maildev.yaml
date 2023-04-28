@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mailserver
+    version: v1
+  name: mailserver
+  namespace: dapr-trafficcontrol
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mailserver
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: mailserver
+        version: v1
+    spec:
+      containers:
+        - image: maildev/maildev:2.0.5
+          imagePullPolicy: IfNotPresent
+          name: mailserver
+          ports:
+            - containerPort: 1025
+            - containerPort: 1080
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mailserver
+    version: v1
+  name: mailserver
+  namespace: dapr-trafficcontrol
+spec:
+  type: NodePort
+  ports:
+    - name: web
+      port: 1080
+      targetPort: 1080
+      nodePort: 30000
+    - name: smtp
+      port: 1025
+      targetPort: 1025
+  selector:
+    app: mailserver

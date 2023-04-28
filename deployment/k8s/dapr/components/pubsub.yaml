@@ -9,7 +9,7 @@ spec:
   version: v1
   metadata:
     - name: connectionString
-      value: amqp://localhost:5672
+      value: amqp://rabbitmq:5672
 scopes:
   - trafficcontrolservice
   - finecollectionservice

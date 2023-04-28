@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOCATION=swedencentral
-RESOURCE_GROUP=dapr-traffic-control
+RESOURCE_GROUP=dapr-trafficcontrol
 TEMPLATE_FILE_PATH="./main.bicep"
 PARAMETERS_FILE_PATH="./main.parameters.json"
 
@@ -81,7 +81,6 @@ az containerapp create \
     --target-port 6001 \
     --min-replicas 1 \
     --max-replicas 1 \
-    --env-vars "FINE_CALCULATOR_LICENSE_SECRET_NAME=fine-calculator-license-key"
 
 # Create fine-collection-service container app
 az containerapp create \
@@ -100,7 +99,7 @@ az containerapp create \
     --target-port 6002 \
     --min-replicas 1 \
     --max-replicas 1 \
-    --env-vars "FINE_CALCULATOR_LICENSE_SECRET_NAME=fine-calculator-license-key"
+    --env-vars "FINE_CALCULATOR_LICENSE_SECRET_NAME=fine-calculator-license-key" "FINE_CALCULATOR_LICENSE_SECRET_KEY=fine-calculator-license-key"
 
 # Create vehicle-registration-service container app
 az containerapp create \

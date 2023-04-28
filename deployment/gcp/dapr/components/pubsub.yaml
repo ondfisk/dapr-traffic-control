@@ -1,0 +1,61 @@
+---
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: pubsub
+  namespace: dapr-trafficcontrol
+spec:
+  type: pubsub.gcp.pubsub
+  version: v1
+  metadata:
+    - name: type
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: type
+    - name: projectId
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: project_id
+    - name: privateKeyId
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: private_key_id
+    - name: clientEmail
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: client_email
+    - name: clientId
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: client_id
+    - name: authUri
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: auth_uri
+    - name: tokenUri
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: token_uri
+    - name: authProviderX509CertUrl
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: auth_provider_x509_cert_url
+    - name: clientX509CertUrl
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: client_x509_cert_url
+    - name: privateKey
+      secretKeyRef:
+        name: trafficcontrol-secrets
+        key: private_key
+    - name: disableEntityManagement
+      value: "false"
+    - name: enableMessageOrdering
+      value: "false"
+    - name: maxReconnectionAttempts
+      value: 30
+    - name: connectionRecoveryInSec
+      value: 2
+scopes:
+  - trafficcontrolservice
+  - finecollectionservice

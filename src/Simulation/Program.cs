@@ -1,8 +1,4 @@
-﻿var configuration =  new ConfigurationBuilder()
-     .AddJsonFile("appsettings.json");
-
-var config = configuration.Build();
-var trafficControlEndpoint = config["TrafficControlEndpoint"];
+﻿var trafficControlEndpoint = Environment.GetEnvironmentVariable("TRAFFIC_CONTROL_ENDPOINT");
 if (string.IsNullOrWhiteSpace(trafficControlEndpoint))
 {
     throw new InvalidOperationException("Traffic control endpoint is not configured");

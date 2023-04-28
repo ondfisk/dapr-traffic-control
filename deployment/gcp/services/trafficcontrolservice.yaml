@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trafficcontrolservice
+  namespace: dapr-trafficcontrol
+  labels:
+    app: trafficcontrolservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trafficcontrolservice
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: trafficcontrolservice
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: trafficcontrolservice
+        dapr.io/app-port: "6001"
+        dapr.io/config: dapr-config
+        dapr.io/log-as-json: "true"
+    spec:
+      containers:
+        - name: trafficcontrolservice
+          image: ghcr.io/ondfisk/traffic-control-service:latest
+          imagePullPolicy: Always
+          env:
+            - name: ASPNETCORE_URLS
+              value: "http://*:6001"
+          ports:
+            - containerPort: 6001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: trafficcontrolservice
+  name: trafficcontrolservice
+  namespace: dapr-trafficcontrol
+spec:
+  ports:
+    - name: web
+      port: 6001
+      targetPort: 6001
+  selector:
+    app: trafficcontrolservice
