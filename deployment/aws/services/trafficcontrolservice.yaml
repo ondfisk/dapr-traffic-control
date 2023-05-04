@@ -19,9 +19,9 @@ spec:
         app: trafficcontrolservice
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/app-id: "trafficcontrolservice"
+        dapr.io/app-id: trafficcontrolservice
         dapr.io/app-port: "6001"
-        dapr.io/config: "dapr-config"
+        dapr.io/config: dapr-config
         dapr.io/log-as-json: "true"
     spec:
       containers:

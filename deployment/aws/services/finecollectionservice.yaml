@@ -16,7 +16,7 @@ spec:
         app: finecollectionservice
       annotations:
         dapr.io/enabled: "true"
-        dapr.io/app-id: "finecollectionservice"
+        dapr.io/app-id: finecollectionservice
         dapr.io/app-port: "6002"
         dapr.io/config: "dapr-config"
     spec:
@@ -26,9 +26,9 @@ spec:
           imagePullPolicy: Always
           env:
             - name: FINE_CALCULATOR_LICENSE_SECRET_NAME
-              value: trafficcontrol-secrets
+              value: finecalculator_licensekey
             - name: FINE_CALCULATOR_LICENSE_SECRET_KEY
-              value: finecalculator.licensekey
+              value: finecalculator_licensekey
           ports:
             - containerPort: 6002
           resources:

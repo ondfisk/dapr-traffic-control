@@ -5,23 +5,20 @@ metadata:
   name: statestore
   namespace: dapr-trafficcontrol
 spec:
-  type: state.redis
+  type: state.aws.dynamodb
   version: v1
   metadata:
-    - name: region
-      value: eu-north-1
     - name: table
       value: vehicles
+    - name: region
+      value: eu-north-1
     - name: accessKey
       secretKeyRef:
         name: trafficcontrol-secrets
-        key: accessKey
-      value: ""
+        key: access_key
     - name: secretKey
       secretKeyRef:
         name: trafficcontrol-secrets
-        key: secretKey
-auth:
-  secretStore: secretstore
+        key: secret_key
 scopes:
   - trafficcontrolservice

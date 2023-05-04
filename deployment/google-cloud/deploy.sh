@@ -1,11 +1,11 @@
-# Note
-# Deployed GKE cluster with minimal settings using console
+# Note:
+# Deploy GKE cluster with minimal settings using console
 
 # Sign in
 gcloud container clusters get-credentials trafficcontrol --region=europe-west3-c
 
 # Install Dapr
-# dapr init -k
+dapr init -k
 
 SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 

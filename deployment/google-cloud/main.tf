@@ -31,14 +31,6 @@ variable "fine_calculator_license_key" {
   type = string
 }
 
-variable "cluster_name" {
-  type = string
-}
-
-variable "cluster_location" {
-  type = string
-}
-
 resource "google_project_service" "firestore" {
   service = "firestore.googleapis.com"
 }

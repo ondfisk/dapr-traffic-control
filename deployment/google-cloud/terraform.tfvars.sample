@@ -1,0 +1,5 @@
+location = "europe-west3"
+pubsub_topic = "speedingviolations"
+pubsub_dead_letters_topic = "deadletters"
+fine_calculator_license_key_secret_id = "finecalculator_licensekey"
+fine_calculator_license_key = "HX783-K2L7V-CRJ4A-5PN1G"

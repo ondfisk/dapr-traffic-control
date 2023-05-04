@@ -13,12 +13,11 @@ spec:
     - name: accessKey
       secretKeyRef:
         name: trafficcontrol-secrets
-        key: accessKey
-      value: ""
+        key: access_key
     - name: secretKey
       secretKeyRef:
         name: trafficcontrol-secrets
-        key: secretKey
+        key: secret_key
 scopes:
   - trafficcontrolservice
   - finecollectionservice

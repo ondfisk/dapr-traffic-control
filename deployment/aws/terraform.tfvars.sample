@@ -1,0 +1,5 @@
+table_name = "vehicles"
+queue_name = "speedingviolations"
+dead_letters_queue_name = "deadletters"
+fine_calculator_license_key_secret_name = "finecalculator_licensekey"
+fine_calculator_license_key = "HX783-K2L7V-CRJ4A-5PN1G"
