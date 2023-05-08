@@ -43,14 +43,15 @@ metadata:
   name: mailserver
   namespace: dapr-trafficcontrol
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - name: web
       port: 1080
       targetPort: 1080
-      nodePort: 30000
+      protocol: TCP
     - name: smtp
       port: 1025
       targetPort: 1025
+      protocol: TCP
   selector:
     app: mailserver

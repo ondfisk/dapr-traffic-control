@@ -34,7 +34,7 @@ public class CollectionController : ControllerBase
             var secretName = Environment.GetEnvironmentVariable("FINE_CALCULATOR_LICENSE_SECRET_NAME") ?? "finecalculator.licensekey";
             var secretKey = Environment.GetEnvironmentVariable("FINE_CALCULATOR_LICENSE_SECRET_KEY") ?? "finecalculator.licensekey";
             var secrets = await _daprClient.GetSecretAsync(DAPR_SECRET_STORE, secretName);
-            _fineCalculatorLicenseKey = secrets[secretName];
+            _fineCalculatorLicenseKey = secrets[secretKey];
         }
 
         decimal fine = _fineCalculator.CalculateFine(_fineCalculatorLicenseKey, speedingViolation.ViolationInKmh);

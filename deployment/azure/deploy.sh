@@ -1,7 +1,8 @@
 #!/bin/bash
 
+SUBSCRIPTION="8228ddb9-d118-47b4-b4e7-1f1de7667d4d"
 LOCATION=swedencentral
-RESOURCE_GROUP=dapr-trafficcontrol
+RESOURCE_GROUP=dapr-traffic-control
 TEMPLATE_FILE_PATH="./main.bicep"
 PARAMETERS_FILE_PATH="./main.parameters.json"
 
@@ -13,6 +14,9 @@ for param in $(echo "${PARAMETERS}" | jq -r 'keys[]'); do
   value=$(echo "${PARAMETERS}" | jq -r ".$param.value")
   eval "$key='$value'"
 done
+
+# Set subscription
+az account set --subscription $SUBSCRIPTION
 
 # Create resource group
 az group create --name $RESOURCE_GROUP --location $LOCATION

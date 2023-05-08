@@ -6,6 +6,6 @@ PORT=6003
 dapr run \
     --app-id vehicleregistrationservice \
     --app-port $PORT \
-    --resources-path ./local/dapr/components \
-    --config ./local/dapr/config/config.yaml \
+    --resources-path ./dapr/components \
+    --config ./dapr/config/config.yaml \
     -- dotnet run --urls http://localhost:$PORT --project $SCRIPT_PATH/../../src/VehicleRegistrationService
