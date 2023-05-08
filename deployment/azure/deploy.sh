@@ -99,7 +99,7 @@ az containerapp create \
     --cpu '0.25' \
     --memory '0.5Gi' \
     --system-assigned \
-    --ingress external \
+    --ingress internal \
     --target-port 6002 \
     --min-replicas 1 \
     --max-replicas 1 \
@@ -118,7 +118,7 @@ az containerapp create \
     --cpu '0.25' \
     --memory '0.5Gi' \
     --system-assigned \
-    --ingress external \
+    --ingress internal \
     --target-port 6003 \
     --min-replicas 1 \
     --max-replicas 1
@@ -152,3 +152,20 @@ az role assignment create \
   --assignee $FINE_COLLECTION_SERVICE_PRINCIPAL_ID \
   --role "Azure Service Bus Data Receiver" \
   --scope $SERVICE_BUS_QUEUE_ID
+
+# Create simulation container app
+az containerapp create \
+    --name simulation \
+    --environment $CONTAINER_APPS_ENVIRONMENT_NAME \
+    --resource-group $RESOURCE_GROUP \
+    --image ghcr.io/ondfisk/simulation:latest \
+    --enable-dapr \
+    --dapr-enable-api-logging \
+    --dapr-app-id simulation \
+    --dapr-app-protocol http \
+    --cpu '0.25' \
+    --memory '0.5Gi' \
+    --system-assigned \
+    --min-replicas 1 \
+    --max-replicas 1 \
+    --env-vars "TRAFFIC_CONTROL_ENDPOINT=http://trafficcontrolservice"
