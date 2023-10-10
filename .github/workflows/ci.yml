@@ -24,7 +24,7 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  push:
+  build:
     name: Build and push Docker image
     strategy:
       matrix:
