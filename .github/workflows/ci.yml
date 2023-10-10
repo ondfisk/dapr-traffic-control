@@ -42,7 +42,7 @@ jobs:
         run: echo "SERVICE_NAME=$(echo '${{ matrix.service }}' | sed 's/\(.\)\([A-Z]\)/\1-\L\2/g' | sed 's/^./\L&/')" >> "$GITHUB_ENV"
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
